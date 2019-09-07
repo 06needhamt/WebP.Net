@@ -20,3 +20,6 @@ void* DecodeRGB(const void* data, size_t data_size, int* width, int* height);
 
 // Same as DecodeRGB, but returning B, G, R, B, G, R... ordered data.
 void* DecodeBGR(const void* data, size_t data_size, int* width, int* height);
+
+// Releases memory returned by the Decode*() functions above.
+void FreeDecoder(void* ptr);
