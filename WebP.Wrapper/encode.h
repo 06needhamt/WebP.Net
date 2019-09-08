@@ -1,10 +1,12 @@
 #pragma once
 
+#define WEBP_NATIVE_CALL __declspec(dllexport)
+
 #include <webp/encode.h>
 
 // Return the encoder's version number, packed in hexadecimal using 8bits for
 // each of major/minor/revision. E.g: v2.5.7 is 0x020507.
-int GetEncoderVersion(void);
+WEBP_NATIVE_CALL int __stdcall GetEncoderVersion(void);
 
 //------------------------------------------------------------------------------
 // One-stop-shop call! No questions asked:
@@ -15,16 +17,16 @@ int GetEncoderVersion(void);
 // These functions compress using the lossy format, and the quality_factor
 // can go from 0 (smaller output, lower quality) to 100 (best quality,
 // larger output).
-size_t EncodeRGB(const uint8_t* rgb,
+WEBP_NATIVE_CALL size_t __stdcall EncodeRGB(const uint8_t* rgb,
 	int width, int height, int stride,
 	float quality_factor, uint8_t** output);
-size_t EncodeBGR(const uint8_t* bgr,
+WEBP_NATIVE_CALL size_t __stdcall EncodeBGR(const uint8_t* bgr,
 	int width, int height, int stride,
 	float quality_factor, uint8_t** output);
-size_t EncodeRGBA(const uint8_t* rgba,
+WEBP_NATIVE_CALL size_t __stdcall EncodeRGBA(const uint8_t* rgba,
 	int width, int height, int stride,
 	float quality_factor, uint8_t** output);
-size_t EncodeBGRA(const uint8_t* bgra,
+WEBP_NATIVE_CALL size_t __stdcall EncodeBGRA(const uint8_t* bgra,
 	int width, int height, int stride,
 	float quality_factor, uint8_t** output);
 
@@ -35,19 +37,19 @@ size_t EncodeBGRA(const uint8_t* bgra,
 // settings. For lossless this means 'exact' is disabled. RGB values in
 // transparent areas will be modified to improve compression. To avoid this,
 // use WebPEncode() and set WebPConfig::exact to 1.
-size_t EncodeLosslessRGB(const uint8_t* rgb,
+WEBP_NATIVE_CALL size_t __stdcall EncodeLosslessRGB(const uint8_t* rgb,
 	int width, int height, int stride,
 	uint8_t** output);
-size_t EncodeLosslessBGR(const uint8_t* bgr,
+WEBP_NATIVE_CALL size_t __stdcall EncodeLosslessBGR(const uint8_t* bgr,
 	int width, int height, int stride,
 	uint8_t** output);
-size_t EncodeLosslessRGBA(const uint8_t* rgba,
+WEBP_NATIVE_CALL size_t __stdcall EncodeLosslessRGBA(const uint8_t* rgba,
 	int width, int height, int stride,
 	uint8_t** output);
-size_t EncodeLosslessBGRA(const uint8_t* bgra,
+WEBP_NATIVE_CALL size_t __stdcall EncodeLosslessBGRA(const uint8_t* bgra,
 	int width, int height, int stride,
 	uint8_t** output);
 
 // Releases memory returned by the Encode*() functions above.
-void FreeEncoder(void* ptr);
+WEBP_NATIVE_CALL void __stdcall FreeEncoder(void* ptr);
 

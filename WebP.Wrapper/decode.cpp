@@ -1,39 +1,33 @@
 #include "decode.h"
 
-int GetDecoderVersion() {
+WEBP_NATIVE_CALL int __stdcall GetDecoderVersion() {
 	return WebPGetDecoderVersion();
 }
 
-int GetInfo(const void* data, size_t data_size, int* width, int* height) {
-	uint8_t* buffer = (uint8_t*) data;
-	return WebPGetInfo(buffer, data_size, width, height);
+WEBP_NATIVE_CALL int __stdcall GetInfo(const uint8_t* data, size_t data_size, int* width, int* height) {
+	return WebPGetInfo(data, data_size, width, height);
 }
 
-void* DecodeRGBA(const void* data, size_t data_size, int* width, int* height) {
-	uint8_t* buffer = (uint8_t*)data;
-	return reinterpret_cast<void*>(WebPDecodeRGBA(buffer, data_size, width, height));
+WEBP_NATIVE_CALL uint8_t* __stdcall DecodeRGBA(const uint8_t* data, size_t data_size, int* width, int* height) {
+	return WebPDecodeRGBA(data, data_size, width, height);
 }
 
-void* DecodeARGB(const void* data, size_t data_size, int* width, int* height) {
-	uint8_t* buffer = (uint8_t*)data;
-	return reinterpret_cast<void*>(WebPDecodeARGB(buffer, data_size, width, height));
+WEBP_NATIVE_CALL uint8_t* __stdcall DecodeARGB(const uint8_t* data, size_t data_size, int* width, int* height) {
+	return WebPDecodeARGB(data, data_size, width, height);
 }
 
-void* DecodeBGRA(const void* data, size_t data_size, int* width, int* height) {
-	uint8_t* buffer = (uint8_t*)data;
-	return reinterpret_cast<void*>(WebPDecodeBGRA(buffer, data_size, width, height));
+WEBP_NATIVE_CALL uint8_t* __stdcall DecodeBGRA(const uint8_t* data, size_t data_size, int* width, int* height) {
+	return WebPDecodeBGRA(data, data_size, width, height);
 }
 
-void* DecodeRGB(const void* data, size_t data_size, int* width, int* height) {
-	uint8_t* buffer = (uint8_t*)data;
-	return reinterpret_cast<void*>(WebPDecodeRGB(buffer, data_size, width, height));
+WEBP_NATIVE_CALL uint8_t* __stdcall DecodeRGB(const uint8_t* data, size_t data_size, int* width, int* height) {
+	return WebPDecodeRGB(data, data_size, width, height);
 }
 
-void* DecodeBGR(const void* data, size_t data_size, int* width, int* height) {
-	uint8_t* buffer = (uint8_t*)data;
-	return reinterpret_cast<void*>(WebPDecodeBGR(buffer, data_size, width, height));
+WEBP_NATIVE_CALL uint8_t* __stdcall DecodeBGR(const uint8_t* data, size_t data_size, int* width, int* height) {
+	return WebPDecodeBGR(data, data_size, width, height);
 }
 
-void FreeDecoder(void* ptr) {
+WEBP_NATIVE_CALL void __stdcall FreeDecoder(void* ptr) {
 	WebPFree(ptr);
 }
