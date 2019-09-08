@@ -1,6 +1,8 @@
 #pragma once
 
+#ifndef WEBP_NATIVE_CALL
 #define WEBP_NATIVE_CALL __declspec(dllexport) 
+#endif 
 
 #include <webp/decode.h>
 
