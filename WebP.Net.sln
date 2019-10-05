@@ -10,6 +10,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebP.Net", "WebP.Net\WebP.N
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WebP.Wrapper", "WebP.Wrapper\WebP.Wrapper.vcxproj", "{A3AADD5D-7518-43BB-8D59-EC9C9604DA4E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.csproj", "{22D77567-3EE7-4811-BE31-215108FE636C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -24,6 +26,10 @@ Global
 		{A3AADD5D-7518-43BB-8D59-EC9C9604DA4E}.Debug|x64.Build.0 = Debug|x64
 		{A3AADD5D-7518-43BB-8D59-EC9C9604DA4E}.Release|x64.ActiveCfg = Release|x64
 		{A3AADD5D-7518-43BB-8D59-EC9C9604DA4E}.Release|x64.Build.0 = Release|x64
+		{22D77567-3EE7-4811-BE31-215108FE636C}.Debug|x64.ActiveCfg = Debug|x64
+		{22D77567-3EE7-4811-BE31-215108FE636C}.Debug|x64.Build.0 = Debug|x64
+		{22D77567-3EE7-4811-BE31-215108FE636C}.Release|x64.ActiveCfg = Release|x64
+		{22D77567-3EE7-4811-BE31-215108FE636C}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
