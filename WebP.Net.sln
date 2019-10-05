@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.29025.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebP.Net", "WebP.Net\WebP.Net.csproj", "{3BE15585-E172-49EE-B12D-9F722D2CF608}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A3AADD5D-7518-43BB-8D59-EC9C9604DA4E} = {A3AADD5D-7518-43BB-8D59-EC9C9604DA4E}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WebP.Wrapper", "WebP.Wrapper\WebP.Wrapper.vcxproj", "{A3AADD5D-7518-43BB-8D59-EC9C9604DA4E}"
 EndProject
