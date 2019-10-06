@@ -49,7 +49,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>D:\libwebp\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\libwebp\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>D:\GitHub\libwebp\output\release-static\x64\lib;$(LibraryPath)</LibraryPath>
     <LinkIncremental>false</LinkIncremental>
     <TargetExt>.dll</TargetExt>
   </PropertyGroup>

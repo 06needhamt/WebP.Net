@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace WebP.Net.Decoder
+namespace WebP.Net
 {
     public static class DecoderWrapper
     {

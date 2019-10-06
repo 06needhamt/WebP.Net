@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace WebP.Net.Encoder
+namespace WebP.Net
 {
     public static class EncoderWrapper
     {
