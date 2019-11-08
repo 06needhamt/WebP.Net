@@ -80,9 +80,9 @@ namespace TestApp
             {
                 case WebP.Net.PixelFormat.BGR:
                     if (lossless)
-                        size = EncoderWrapper.EncodeLosslessBGR(ms.ToArray(), img.Width, img.Height, img.Width * 4, 100, out ptr);
+                        size = EncoderWrapper.EncodeLosslessBGR(ms.ToArray(), img.Width, img.Height, img.Width * 3, 100, out ptr);
                     else
-                        size = EncoderWrapper.EncodeBGR(ms.ToArray(), img.Width, img.Height, img.Width * 4, 100, out ptr);
+                        size = EncoderWrapper.EncodeBGR(ms.ToArray(), img.Width, img.Height, img.Width * 3, 100, out ptr);
                     break;
                 case WebP.Net.PixelFormat.RGB:
                     if (lossless)
@@ -92,9 +92,9 @@ namespace TestApp
                     break;
                 case WebP.Net.PixelFormat.RGBA:
                     if (lossless)
-                        size = EncoderWrapper.EncodeLosslessRGBA(ms.ToArray(), img.Width, img.Height, img.Width * 3, 100, out ptr);
+                        size = EncoderWrapper.EncodeLosslessRGBA(ms.ToArray(), img.Width, img.Height, img.Width * 4, 100, out ptr);
                     else
-                        size = EncoderWrapper.EncodeRGBA(ms.ToArray(), img.Width, img.Height, img.Width * 3, 100, out ptr);
+                        size = EncoderWrapper.EncodeRGBA(ms.ToArray(), img.Width, img.Height, img.Width * 4, 100, out ptr);
                     break;
                 case WebP.Net.PixelFormat.BGRA:
                     if (lossless)

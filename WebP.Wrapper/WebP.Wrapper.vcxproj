@@ -71,7 +71,8 @@
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)$(Platform)\$(Configuration)\$(TargetFileName)" /y "$(SolutionDir)TestApp\bin\$(Platform)\$(Configuration)\$(TargetFileName)"</Command>
+      <Command>copy "$(SolutionDir)$(Platform)\$(Configuration)\$(TargetFileName)" /y "$(SolutionDir)TestApp\bin\$(Platform)\$(Configuration)\$(TargetFileName)"
+copy "$(SolutionDir)$(Platform)\$(Configuration)\$(TargetFileName)" /y "$(SolutionDir)BatchProcessor\bin\$(Platform)\$(Configuration)\$(TargetFileName)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -91,7 +92,8 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)$(Platform)\$(Configuration)\$(TargetFileName)" /y "$(SolutionDir)TestApp\bin\$(Platform)\$(Configuration)\$(TargetFileName)"</Command>
+      <Command>copy "$(SolutionDir)$(Platform)\$(Configuration)\$(TargetFileName)" /y "$(SolutionDir)TestApp\bin\$(Platform)\$(Configuration)\$(TargetFileName)"
+copy "$(SolutionDir)$(Platform)\$(Configuration)\$(TargetFileName)" /y "$(SolutionDir)BatchProcessor\bin\$(Platform)\$(Configuration)\$(TargetFileName)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
