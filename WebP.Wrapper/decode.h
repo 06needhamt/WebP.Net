@@ -44,6 +44,16 @@ extern "C" {
 	// Same as DecodeRGB, but returning B, G, R, B, G, R... ordered data.
 	WEBP_NATIVE_CALL uint8_t* __stdcall DecodeBGR(const uint8_t* data, size_t data_size, int* width, int* height);
 
+	WEBP_NATIVE_CALL uint8_t* __stdcall DecodeRGBAInto(const uint8_t* data, size_t data_size, uint8_t* output_buffer, size_t output_buffer_size, int output_stride);
+
+	WEBP_NATIVE_CALL uint8_t* __stdcall DecodeARGBInto(const uint8_t* data, size_t data_size, uint8_t* output_buffer, size_t output_buffer_size, int output_stride);
+
+	WEBP_NATIVE_CALL uint8_t* __stdcall DecodeBGRAInto(const uint8_t* data, size_t data_size, uint8_t* output_buffer, size_t output_buffer_size, int output_stride);
+
+	WEBP_NATIVE_CALL uint8_t* __stdcall DecodeRGBInto(const uint8_t* data, size_t data_size, uint8_t* output_buffer, size_t output_buffer_size, int output_stride);
+
+	WEBP_NATIVE_CALL uint8_t* __stdcall DecodeBGRInto(const uint8_t* data, size_t data_size, uint8_t* output_buffer, size_t output_buffer_size, int output_stride);
+
 	// Releases memory returned by the Decode*() functions above.
 	WEBP_NATIVE_CALL void __stdcall FreeDecoder(void* ptr);
 }

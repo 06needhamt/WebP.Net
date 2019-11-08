@@ -118,7 +118,7 @@ namespace TestApp
 
             img.Dispose();
 
-            EncoderWrapper.FreeEncoder(ptr);
+            //EncoderWrapper.FreeEncoder(ptr);
 
             Console.WriteLine("File Was Successfully Encoded");
         }
@@ -132,37 +132,46 @@ namespace TestApp
             int data_size = 0;
             IntPtr ptr = IntPtr.Zero;
             Bitmap bitmap = null;
+            BitmapData bitmapData = null;
             MemoryStream ms = new MemoryStream(File.ReadAllBytes(inputFile.FullName));
+
+            DecoderWrapper.GetInfo(ms.ToArray(), ms.Length, out width, out height);
 
             switch (pixelFormat)
             {
                 case WebP.Net.PixelFormat.BGR:
-                    ptr = DecoderWrapper.DecodeBGR(ms.ToArray(), ms.Length, out width, out height);
+                    bitmap = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+                    bitmapData = bitmap.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+                    ptr = DecoderWrapper.DecodeBGRInto(ms.ToArray(), (ulong)ms.Length, bitmapData.Scan0, (ulong)(bitmapData.Stride * bitmapData.Height), bitmapData.Stride);
                     data_size = width * height * 3;
                     break;
                 case WebP.Net.PixelFormat.RGB:
-                    ptr = DecoderWrapper.DecodeRGB(ms.ToArray(), ms.Length, out width, out height);
+                    bitmap = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+                    bitmapData = bitmap.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+                    ptr = ptr = DecoderWrapper.DecodeRGBInto(ms.ToArray(), (ulong)ms.Length, bitmapData.Scan0, (ulong)(bitmapData.Stride * bitmapData.Height), bitmapData.Stride);
                     data_size = width * height * 3;
                     break;
                 case WebP.Net.PixelFormat.RGBA:
-                    ptr = DecoderWrapper.DecodeRGBA(ms.ToArray(), ms.Length, out width, out height);
+                    bitmap = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                    bitmapData = bitmap.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                    ptr = DecoderWrapper.DecodeRGBAInto(ms.ToArray(), (ulong)ms.Length, bitmapData.Scan0, (ulong)(bitmapData.Stride * bitmapData.Height), bitmapData.Stride);
                     data_size = width * height * 4;
                     break;
                 case WebP.Net.PixelFormat.ARGB:
-                    ptr = DecoderWrapper.DecodeARGB(ms.ToArray(), ms.Length, out width, out height);
+                    bitmap = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                    bitmapData = bitmap.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                    ptr = DecoderWrapper.DecodeARGBInto(ms.ToArray(), (ulong)ms.Length, bitmapData.Scan0, (ulong)(bitmapData.Stride * bitmapData.Height), bitmapData.Stride);
                     data_size = width * height * 4;
                     break;
                 case WebP.Net.PixelFormat.BGRA:
-                    ptr = DecoderWrapper.DecodeBGRA(ms.ToArray(), ms.Length, out width, out height);
+                    bitmap = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                    bitmapData = bitmap.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                    ptr = DecoderWrapper.DecodeBGRAInto(ms.ToArray(), (ulong)ms.Length, bitmapData.Scan0, (ulong)(bitmapData.Stride * bitmapData.Height), bitmapData.Stride);
                     data_size = width * height * 4;
                     break;
             }
 
-            byte[] buffer = new byte[data_size];
-            Marshal.Copy(ptr, buffer, 0, data_size);
-
-            MemoryStream output = new MemoryStream(buffer);
-            bitmap = new Bitmap(output, false);
+            bitmap.UnlockBits(bitmapData);
 
             FileStream fs = new FileStream(outputFile.FullName, FileMode.Create, FileAccess.Write);
             bitmap.Save(fs, ImageFormat.Jpeg);
@@ -170,12 +179,10 @@ namespace TestApp
             fs.Close();
             fs.Dispose();
 
-            output.Close();
-            output.Dispose();
             ms.Close();
             ms.Dispose();
 
-            DecoderWrapper.FreeDecoder(ptr);
+            //DecoderWrapper.FreeDecoder(ptr);
 
             Console.WriteLine("File Was Successfully Decoded");
         }

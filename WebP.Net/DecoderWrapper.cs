@@ -27,6 +27,21 @@ namespace WebP.Net
 
         [DllImport("WebP.Wrapper.dll", CallingConvention = CallingConvention.StdCall)]
         public static extern IntPtr DecodeBGR(byte[] data, long data_size, out int width, out int height);
+        
+        [DllImport("WebP.Wrapper.dll", CallingConvention = CallingConvention.StdCall)]
+        public static extern IntPtr DecodeRGBAInto(byte[] data, ulong data_size, IntPtr output_buffer, ulong output_buffer_size, int output_stride);
+        
+        [DllImport("WebP.Wrapper.dll", CallingConvention = CallingConvention.StdCall)]
+        public static extern IntPtr DecodeARGBInto(byte[] data, ulong data_size, IntPtr output_buffer, ulong output_buffer_size, int output_stride);
+
+        [DllImport("WebP.Wrapper.dll", CallingConvention = CallingConvention.StdCall)]
+        public static extern IntPtr DecodeBGRAInto(byte[] data, ulong data_size, IntPtr output_buffer, ulong output_buffer_size, int output_stride);
+
+        [DllImport("WebP.Wrapper.dll", CallingConvention = CallingConvention.StdCall)]
+        public static extern IntPtr DecodeRGBInto(byte[] data, ulong data_size, IntPtr output_buffer, ulong output_buffer_size, int output_stride);
+
+        [DllImport("WebP.Wrapper.dll", CallingConvention = CallingConvention.StdCall)]
+        public static extern IntPtr DecodeBGRInto(byte[] data, ulong data_size, IntPtr output_buffer, ulong output_buffer_size, int output_stride);
 
         [DllImport("WebP.Wrapper.dll", CallingConvention = CallingConvention.StdCall)]
         public static extern void FreeDecoder(IntPtr ptr);
