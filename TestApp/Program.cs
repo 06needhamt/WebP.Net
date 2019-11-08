@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using WebP.Net;
@@ -69,8 +70,8 @@ namespace TestApp
             Console.WriteLine($"Using Encoder Version: {EncoderWrapper.GetEncoderVersion()}");
 
             Image img = Image.FromFile(inputFile.FullName);
-
-            byte[] buffer = new byte[(int)Math.Pow(10, 8)];
+            IntPtr ptr = IntPtr.Zero;
+            ulong size = 0L;
             MemoryStream ms = new MemoryStream();
 
             img.Save(ms, ImageFormat.Bmp);
@@ -79,29 +80,32 @@ namespace TestApp
             {
                 case WebP.Net.PixelFormat.BGR:
                     if (lossless)
-                        EncoderWrapper.EncodeLosslessBGR(ms.ToArray(), img.Width, img.Height, img.Width * 4, 100, out buffer);
+                        size = EncoderWrapper.EncodeLosslessBGR(ms.ToArray(), img.Width, img.Height, img.Width * 4, 100, out ptr);
                     else
-                        EncoderWrapper.EncodeBGR(ms.ToArray(), img.Width, img.Height, img.Width * 4, 100, out buffer);
-                    break;
-                case WebP.Net.PixelFormat.BGRA:
-                    if (lossless)
-                        EncoderWrapper.EncodeLosslessBGRA(ms.ToArray(), img.Width, img.Height, img.Width * 4, 100, out buffer);
-                    else
-                        EncoderWrapper.EncodeBGRA(ms.ToArray(), img.Width, img.Height, img.Width * 4, 100, out buffer);
+                        size = EncoderWrapper.EncodeBGR(ms.ToArray(), img.Width, img.Height, img.Width * 4, 100, out ptr);
                     break;
                 case WebP.Net.PixelFormat.RGB:
                     if (lossless)
-                        EncoderWrapper.EncodeLosslessRGB(ms.ToArray(), img.Width, img.Height, img.Width * 3, 100, out buffer);
+                        size = EncoderWrapper.EncodeLosslessRGB(ms.ToArray(), img.Width, img.Height, img.Width * 3, 100, out ptr);
                     else
-                        EncoderWrapper.EncodeRGB(ms.ToArray(), img.Width, img.Height, img.Width * 3, 100, out buffer);
+                        size = EncoderWrapper.EncodeRGB(ms.ToArray(), img.Width, img.Height, img.Width * 3, 100, out ptr);
                     break;
                 case WebP.Net.PixelFormat.RGBA:
                     if (lossless)
-                        EncoderWrapper.EncodeLosslessRGBA(ms.ToArray(), img.Width, img.Height, img.Width * 3, 100, out buffer);
+                        size = EncoderWrapper.EncodeLosslessRGBA(ms.ToArray(), img.Width, img.Height, img.Width * 3, 100, out ptr);
                     else
-                        EncoderWrapper.EncodeRGBA(ms.ToArray(), img.Width, img.Height, img.Width * 3, 100, out buffer);
+                        size = EncoderWrapper.EncodeRGBA(ms.ToArray(), img.Width, img.Height, img.Width * 3, 100, out ptr);
+                    break;
+                case WebP.Net.PixelFormat.BGRA:
+                    if (lossless)
+                        size = EncoderWrapper.EncodeLosslessBGRA(ms.ToArray(), img.Width, img.Height, img.Width * 4, 100, out ptr);
+                    else
+                        size = EncoderWrapper.EncodeBGRA(ms.ToArray(), img.Width, img.Height, img.Width * 4, 100, out ptr);
                     break;
             }
+
+            byte[] buffer = new byte[(int)size];
+            Marshal.Copy(ptr, buffer, 0, (int)size);
 
             FileStream fs = new FileStream(outputFile.FullName, FileMode.Create, FileAccess.Write);
             fs.Write(buffer, (int)SeekOrigin.Begin, buffer.Length);
@@ -113,6 +117,8 @@ namespace TestApp
             ms.Dispose();
 
             img.Dispose();
+
+            EncoderWrapper.FreeEncoder(ptr);
 
             Console.WriteLine("File Was Successfully Encoded");
         }
@@ -121,41 +127,55 @@ namespace TestApp
         {
             Console.WriteLine($"Using Decoder Version: {DecoderWrapper.GetDecoderVersion()}");
 
-            Image img = Image.FromFile(inputFile.FullName);
             int width = 0;
             int height = 0;
-
-            byte[] buffer = new byte[] { };
-            MemoryStream ms = new MemoryStream();
-
-            img.Save(ms, img.RawFormat);
+            int data_size = 0;
+            IntPtr ptr = IntPtr.Zero;
+            Bitmap bitmap = null;
+            MemoryStream ms = new MemoryStream(File.ReadAllBytes(inputFile.FullName));
 
             switch (pixelFormat)
             {
                 case WebP.Net.PixelFormat.BGR:
-                    buffer = DecoderWrapper.DecodeBGR(ms.ToArray(), ms.Length, out width, out height);
-                    break;
-                case WebP.Net.PixelFormat.BGRA:
-                    buffer = DecoderWrapper.DecodeBGRA(ms.ToArray(), ms.Length, out width, out height);
+                    ptr = DecoderWrapper.DecodeBGR(ms.ToArray(), ms.Length, out width, out height);
+                    data_size = width * height * 3;
                     break;
                 case WebP.Net.PixelFormat.RGB:
-                    buffer = DecoderWrapper.DecodeRGB(ms.ToArray(), ms.Length, out width, out height);
+                    ptr = DecoderWrapper.DecodeRGB(ms.ToArray(), ms.Length, out width, out height);
+                    data_size = width * height * 3;
                     break;
                 case WebP.Net.PixelFormat.RGBA:
-                    buffer = DecoderWrapper.DecodeRGBA(ms.ToArray(), ms.Length, out width, out height);
+                    ptr = DecoderWrapper.DecodeRGBA(ms.ToArray(), ms.Length, out width, out height);
+                    data_size = width * height * 4;
+                    break;
+                case WebP.Net.PixelFormat.ARGB:
+                    ptr = DecoderWrapper.DecodeARGB(ms.ToArray(), ms.Length, out width, out height);
+                    data_size = width * height * 4;
+                    break;
+                case WebP.Net.PixelFormat.BGRA:
+                    ptr = DecoderWrapper.DecodeBGRA(ms.ToArray(), ms.Length, out width, out height);
+                    data_size = width * height * 4;
                     break;
             }
 
+            byte[] buffer = new byte[data_size];
+            Marshal.Copy(ptr, buffer, 0, data_size);
+
+            MemoryStream output = new MemoryStream(buffer);
+            bitmap = new Bitmap(output, false);
+
             FileStream fs = new FileStream(outputFile.FullName, FileMode.Create, FileAccess.Write);
-            fs.Write(buffer, (int)SeekOrigin.Begin, buffer.Length);
+            bitmap.Save(fs, ImageFormat.Jpeg);
             fs.Flush();
             fs.Close();
             fs.Dispose();
 
+            output.Close();
+            output.Dispose();
             ms.Close();
             ms.Dispose();
 
-            img.Dispose();
+            DecoderWrapper.FreeDecoder(ptr);
 
             Console.WriteLine("File Was Successfully Decoded");
         }

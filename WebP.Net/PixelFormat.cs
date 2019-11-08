@@ -11,5 +11,6 @@ namespace WebP.Net
         BGR = 1 << 1,
         RGBA = 1 << 2,
         BGRA = 1 << 3,
+        ARGB = 1 << 4,
     }
 }
