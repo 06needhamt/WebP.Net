@@ -33,7 +33,7 @@ namespace BatchProcessor
                 ms.Seek(0L, SeekOrigin.Begin);
                 img.Save(ms, ImageFormat.Bmp);
 
-                size = EncoderWrapper.EncodeRGB(ms.ToArray(), img.Width, img.Height, img.Width * 3, 100, out ptr);
+                size = EncoderWrapper.EncodeBGR(ms.ToArray(), img.Width, img.Height, img.Width * 3, 100, out ptr);
 
                 byte[] buffer = new byte[(int)size];
                 Marshal.Copy(ptr, buffer, 0, (int)size);
