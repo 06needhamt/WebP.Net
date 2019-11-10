@@ -42,14 +42,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\libwebp\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\libwebp\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\libwebp\Debug\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\libwebp\Debug\lib;$(LibraryPath)</LibraryPath>
     <LinkIncremental>false</LinkIncremental>
     <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>D:\libwebp\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\GitHub\libwebp\output\release-static\x64\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\libwebp\Release\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\libwebp\Release\lib;$(LibraryPath)</LibraryPath>
     <LinkIncremental>false</LinkIncremental>
     <TargetExt>.dll</TargetExt>
   </PropertyGroup>
@@ -61,12 +61,12 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>libwebp.lib;libwebpdemux.lib;libwebpmux.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>webp.lib;webpdemux.lib;webpmux.lib;webpdecoder.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
     </Link>
@@ -83,11 +83,11 @@ copy "$(SolutionDir)$(Platform)\$(Configuration)\$(TargetFileName)" /y "$(Soluti
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>libwebp.lib;libwebpdemux.lib;libwebpmux.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>webp.lib;webpdemux.lib;webpmux.lib;webpdecoder.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <GenerateDebugInformation>false</GenerateDebugInformation>
     </Link>
